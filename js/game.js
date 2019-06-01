@@ -7,8 +7,8 @@ function selectRandomMemoryLocations() {
 	var shuffled = memoryBoxes.sort(function(){
 		return 0.555 - Math.random();
 	});
-
-	return shuffled.slice(0, 5);
+	var circles = localStorage.getItem('circles') || localStorage.setItem('circles', 5);
+	return shuffled.slice(0, circles || 5);
 }
 function wrapperClickHandler(e) {
 	var target = e.target;
@@ -17,6 +17,7 @@ function wrapperClickHandler(e) {
 		firstClick = false;
 		if (target.childNodes[0].style.opacity === '0') {
 			alert('won');
+			localStorage.setItem('circles', Number(localStorage.getItem('circles'))+1)
 			window.location.reload();
 		} else {
 			Array.prototype.slice.call(document.querySelectorAll('.memory-circle')).forEach(function(element) {
@@ -27,11 +28,12 @@ function wrapperClickHandler(e) {
 	} else {
 		if (!firstClick) {
 			alert('lost');
+			localStorage.removeItem('circles');
 			window.location.reload();
 		}	
 	}
 }
-window.onload = function() {
+window.onload = function(e) {
 	var i = 0;
 	var wrapperDiv = document.getElementById('content_wrapper');
 	while (i < rows*columns) {
