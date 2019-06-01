@@ -30,3 +30,18 @@
   	top: 50%;
   	transform: translate(-50%, -50%);
 }
+#reset_button {
+	padding: 17px;
+    background: #3885d4;
+    border-radius: 5px;
+    float: right;
+    position: absolute;
+    font-size: 16px;
+    color: white;
+    left: 800px;
+    top: 50px;
+    cursor: pointer;
+}
+#reset_button:hover {
+	background: #9cbbdb;
+}

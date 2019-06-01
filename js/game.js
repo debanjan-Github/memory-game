@@ -10,6 +10,10 @@ function selectRandomMemoryLocations() {
 	var circles = localStorage.getItem('circles') || localStorage.setItem('circles', 5);
 	return shuffled.slice(0, circles || 5);
 }
+function resetClickHandler(e) {
+	localStorage.removeItem('circles');
+	window.location.reload();
+}
 function wrapperClickHandler(e) {
 	var target = e.target;
 	if (target.className === 'memory-circle') target = target.parentElement;
@@ -36,13 +40,15 @@ function wrapperClickHandler(e) {
 window.onload = function(e) {
 	var i = 0;
 	var wrapperDiv = document.getElementById('content_wrapper');
+	var reset = document.getElementById('reset_button');
 	while (i < rows*columns) {
 		var template ='<div id="memory_box_'+i+'" class="memory-box"></div>'
 
 		wrapperDiv.innerHTML += template;
 		i++;
 	}
-	wrapperDiv.addEventListener('click', wrapperClickHandler)
+	wrapperDiv.addEventListener('click', wrapperClickHandler);
+	reset.addEventListener('click', resetClickHandler);
 	var randomLocations = selectRandomMemoryLocations();
 
 	randomLocations.forEach(function(element) {
