@@ -2,6 +2,8 @@
 var rows = 6;
 var columns = 6;
 var firstClick = true;
+var circleBoxes = [];
+var clickedBoxes = [];
 function selectRandomMemoryLocations() {
 	var memoryBoxes = Array.prototype.slice.call(document.querySelectorAll('.memory-box'));
 	var shuffled = memoryBoxes.sort(function(){
@@ -20,13 +22,17 @@ function wrapperClickHandler(e) {
 	if ((target.className === 'memory-box') && target.childNodes.length && (target.childNodes[0].className === 'memory-circle')) {
 		firstClick = false;
 		if (target.childNodes[0].style.opacity === '0') {
-			alert('won');
-			localStorage.setItem('circles', Number(localStorage.getItem('circles'))+1)
-			window.location.reload();
+			clickedBoxes.push(target);
+			if (clickedBoxes.length === circleBoxes.length) {
+				alert('won');
+				localStorage.setItem('circles', Number(localStorage.getItem('circles'))+1)
+				window.location.reload();
+			}	
 		} else {
 			Array.prototype.slice.call(document.querySelectorAll('.memory-circle')).forEach(function(element) {
 				element.style.opacity = 0;
 			});
+			clickedBoxes.push(target);
 		}
 		
 	} else {
@@ -50,7 +56,7 @@ window.onload = function(e) {
 	wrapperDiv.addEventListener('click', wrapperClickHandler);
 	reset.addEventListener('click', resetClickHandler);
 	var randomLocations = selectRandomMemoryLocations();
-
+	circleBoxes = randomLocations;
 	randomLocations.forEach(function(element) {
 	  element.innerHTML = '<div class="memory-circle"></div>';
 	});
